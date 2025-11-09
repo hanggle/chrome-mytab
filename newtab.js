@@ -5,12 +5,20 @@ document.addEventListener('DOMContentLoaded', function() {
   const otherBookmarks = document.getElementById('otherBookmarks');
   const modal = document.getElementById('modal');
   const modalBody = document.getElementById('modal-body');
+  const modalTitle = document.getElementById('modal-title');
   const closeButton = document.querySelector('.close-button');
 
   // 确保所有元素都存在
-  if (!modal || !modalBody || !closeButton) {
+  if (!modal || !modalBody || !modalTitle || !closeButton) {
     console.error("Modal elements are not found in the DOM.");
     return;
+  }
+
+  // 显示弹窗的函数
+  function showModal(title, content) {
+    modalTitle.textContent = title;
+    modalBody.innerHTML = content;
+    modal.style.display = 'block';
   }
 
   // 搜索引擎配置
@@ -68,6 +76,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // 创建文件夹元素
         const folderElement = document.createElement('div');
         folderElement.className = 'folder';
+        // 为文件夹添加title信息，包含子项数量
+    const childrenCount = node.children ? node.children.length : 0;
+    folderElement.title = `${node.title} (${childrenCount} 项)`;
 
         // 创建文件夹标题
         const folderTitle = document.createElement('div');
@@ -126,6 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         const bookmarkElement = document.createElement('div');
         bookmarkElement.className = 'bookmark';
+        bookmarkElement.title = node.title; // 添加title属性用于悬停显示完整标题
         
         // 创建图标容器
         const iconContainer = document.createElement('span');
@@ -152,7 +164,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // 添加图标和文本
         bookmarkElement.appendChild(iconContainer);
         bookmarkElement.appendChild(document.createTextNode(node.title));
-        
+
+        // 添加包含URL的完整title信息
+        bookmarkElement.title = `${node.title}\n${node.url}`;
+
         bookmarkElement.addEventListener('click', () => {
             chrome.tabs.create({ url: node.url });
         });
@@ -165,6 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
     children.forEach(child => {
         const childElement = document.createElement('div');
         childElement.className = 'popup-item';
+        childElement.title = child.title; // 添加title属性用于悬停显示完整标题
         
         if (child.url) {
             // 创建图标容器
@@ -191,8 +207,16 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 添加图标和文本
             childElement.appendChild(iconContainer);
-            childElement.appendChild(document.createTextNode(child.title));
-            
+
+            // 为书签文本添加容器
+            const textSpan = document.createElement('span');
+            textSpan.className = 'bookmark-text';
+            textSpan.textContent = child.title;
+            childElement.appendChild(textSpan);
+
+            // 添加包含URL的完整title信息
+            childElement.title = `${child.title}\n${child.url}`;
+
             childElement.addEventListener('click', () => {
                 chrome.tabs.create({ url: child.url });
             });
@@ -202,7 +226,17 @@ document.addEventListener('DOMContentLoaded', function() {
             folderIcon.className = 'folder-icon bi bi-folder';
             
             childElement.appendChild(folderIcon);
-            childElement.appendChild(document.createTextNode(child.title));
+
+            // 为文件夹文本添加容器
+            const folderTextSpan = document.createElement('span');
+            folderTextSpan.className = 'bookmark-text';
+            folderTextSpan.textContent = child.title;
+            childElement.appendChild(folderTextSpan);
+
+            // 为文件夹添加title信息，包含子项数量
+            const childrenCount = child.children ? child.children.length : 0;
+            childElement.title = `${child.title} (${childrenCount} 项)`;
+
             childElement.classList.add('has-children');
             
             // 创建子级弹窗
@@ -220,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const rect = childElement.getBoundingClientRect();
                 if (popup.style.right === '0px' || popup.style.right === '0') {
                     // 其他书签的子级弹窗向左展示
-                    subPopup.style.right = '220px'; // 固定位置
+                    subPopup.style.right = '342px'; // 更新为新的宽度 (330px + 12px margin)
                     subPopup.style.left = 'auto';
                 } else {
                     // 普通书签的子级弹窗向右展示

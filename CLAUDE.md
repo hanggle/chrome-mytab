@@ -5,43 +5,60 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 This is a Chrome extension that creates a custom new tab page with the following features:
 - Custom search bar with Google and Bing search engine options
-- Bookmark bar displaying Chrome bookmarks
+- Bookmark bar displaying Chrome bookmarks with folder hierarchy
 - Time and date display with both solar and lunar calendars
 - Left-side menu with quick access to various tools (calculator, notes, todo, weather, etc.)
+- Modal system for tool popups and extended functionality
 - Responsive design with modern UI elements
 
 ## File Structure
-- `manifest.json` - Chrome extension manifest file
-- `newtab.html` - Main HTML structure for the new tab page
-- `newtab.css` - Styling for the new tab page
-- `newtab.js` - JavaScript functionality for all features
-- `icons/` - Extension icons in various sizes
-- `pic/` - Background images
+- `manifest.json` - Chrome extension manifest file (Manifest V3)
+- `newtab.html` - Main HTML structure for the new tab page with modal system
+- `newtab.css` - Styling for the new tab page with background image support
+- `newtab.js` - JavaScript functionality for all features including Chrome API integration
+- `icons/` - Extension icons in various sizes (16, 48, 128px)
+- `pic/` - Background images (default: background.jpg)
 
 ## Architecture Overview
 The extension follows a simple client-side architecture:
-1. The HTML provides the basic structure with containers for all UI elements
-2. CSS provides styling with a focus on modern, clean design and responsive layout
-3. JavaScript handles all functionality including:
-   - Search engine switching and search execution
-   - Bookmark retrieval and display with folder support
-   - Time/date updates with lunar calendar conversion
-   - Menu system with popup panels for various tools
-   - Event handling for all interactive elements
+
+**HTML Structure**:
+- Single-page application with modular containers for UI components
+- Modal system for popup tools and extended functionality
+- Semantic structure with bookmark containers, search interface, and time displays
+
+**JavaScript Architecture** (newtab.js):
+- Event-driven architecture with DOMContentLoaded initialization
+- Chrome API integration for bookmarks (chrome.bookmarks.getTree)
+- Search engine management with configurable URLs
+- Real-time clock and calendar updates
+- Modal management system for tool popups
+- Bookmark folder hierarchy rendering with popup menus
+
+**CSS Architecture**:
+- Background image system with overlay for readability
+- Responsive layout with flexbox and CSS Grid
+- Component-based styling for bookmark bars, search interface, and modals
+- Bootstrap Icons integration for UI elements
 
 ## Key Components
-1. **Search System**: Supports switching between Google and Bing search engines
-2. **Bookmark System**: Displays Chrome bookmarks with folder hierarchy and popup menus
-3. **Time Display**: Shows current time and date with both solar and lunar calendar
-4. **Tool Menu**: Left-side menu providing access to various utilities
-5. **Popup System**: Modal dialogs for various features
+1. **Search System**: Dual search engine support (Google/Bing) with instant switching
+2. **Bookmark System**: Chrome bookmarks API integration with folder navigation and popup menus
+3. **Time Display**: Real-time clock with solar/lunar calendar conversion
+4. **Modal System**: Centralized popup management for tools and extended features
+5. **Tool Menu**: Left-side menu providing access to various utilities
 
 ## Development Notes
-- This is a Chrome extension using Manifest V3
-- Uses Chrome APIs for bookmarks and tabs
-- Relies on Bootstrap Icons for UI icons
-- Background images are loaded from the `pic/` directory
-- All functionality is contained in a single HTML file with external CSS and JS
+- Chrome Extension Manifest V3 with permissions for bookmarks, favicon, and windows
+- Uses Chrome APIs for bookmark retrieval and management
+- Bootstrap Icons loaded via CDN for UI icons
+- Background images loaded from local `pic/` directory with fallback handling
+- No build process - direct file loading for development
+- Modal-based architecture for extending functionality without page navigation
 
-## No Build Required
-This is a simple Chrome extension with no build process. Files can be loaded directly into Chrome as an unpacked extension for development and testing.
+## Testing and Development
+Load extension as unpacked in Chrome Developer Mode:
+1. Open Chrome Extensions page (chrome://extensions/)
+2. Enable Developer mode
+3. Click "Load unpacked" and select the project directory
+4. Test by opening new tab (Ctrl+T or Cmd+T)

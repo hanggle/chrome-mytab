@@ -144,31 +144,118 @@ body::before {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4); /* 半透明背景 */
+  background-color: rgba(0, 0, 0, 0.6); /* 增加背景遮罩透明度 */
+  backdrop-filter: blur(4px); /* 添加背景模糊效果 */
+  animation: fadeIn 0.3s ease-out; /* 添加淡入动画 */
 }
 
 .modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-height: 80%;
-  overflow-y: auto; /* 允许垂直滚动 */
+  background-color: #ffffff;
+  margin: 5% auto;
+  padding: 0;
+  border: none;
+  border-radius: 12px; /* 圆角设计 */
+  width: 90%;
+  max-width: 600px; /* 限制最大宽度 */
+  max-height: 85vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); /* 增强阴影效果 */
+  animation: slideIn 0.3s ease-out; /* 添加滑入动画 */
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* 渐变背景 */
+  color: white;
+  border-radius: 12px 12px 0 0;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
 }
 
 .close-button {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+  color: rgba(255, 255, 255, 0.8);
+  background: none;
+  border: none;
+  font-size: 24px;
+  font-weight: 300;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .close-button:hover,
 .close-button:focus {
-  color: black;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.2);
   text-decoration: none;
-  cursor: pointer;
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 2% auto;
+    max-height: 95vh;
+    border-radius: 8px;
+  }
+
+  .modal-header {
+    padding: 16px 20px 12px;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .close-button {
+    width: 28px;
+    height: 28px;
+    font-size: 20px;
+  }
 }
 
 /* 搜索框容器样式 */
@@ -235,15 +322,16 @@ body::before {
   position: fixed;
   background: rgba(255, 255, 255, 0.98);
   border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  padding: 4px 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
+  border-radius: 8px;
+  padding: 4px 0; /* 缩小上下边距 */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
   display: none;
   z-index: 10000;
-  max-width: 220px;
-  max-height: 400px;
+  max-width: 330px; /* 增加50%宽度 (220 * 1.5 = 330) */
+  max-height: 80vh;
   overflow-y: auto;
+  margin: 6px 12px; /* 缩小上下边距，保持左右边距 */
 }
 
 /* 美化滚动条 */
@@ -267,7 +355,7 @@ body::before {
 
 /* 弹窗项目样式 */
 .popup-item {
-  padding: 6px 24px 6px 12px;
+  padding: 6px 24px 6px 16px; /* 增加内边距 */
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
@@ -277,17 +365,27 @@ body::before {
   color: #333;
   display: flex;
   align-items: center;
+  min-height: 15px; /* 增加最小高度 */
 }
 
 .popup-item .bookmark-icon {
   display: inline-flex;
   align-items: center;
   margin-right: 8px;
+  flex-shrink: 0; /* 防止图标被压缩 */
 }
 
 .popup-item .favicon {
   width: 16px;
   height: 16px;
+}
+
+.popup-item .bookmark-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0; /* 允许文本收缩 */
 }
 
 .folder-icon {
@@ -301,7 +399,7 @@ body::before {
 }
 
 .popup-item.has-children {
-  padding-right: 24px;
+  padding-right: 32px; /* 为箭头提供更多空间 */
 }
 
 .popup-item.has-children::after {
@@ -347,15 +445,15 @@ body::before {
 /* 其他书签的弹窗样式 */
 .other-bookmarks .popup {
   position: fixed;
-  right: 0;
+  right: 12px; /* 增加右边距 */
   left: auto !important;
-  max-width: 220px;
+  max-width: 330px; /* 增加宽度匹配主弹窗 */
 }
 
 /* 其他书签的子级弹窗样式 */
 .other-bookmarks .sub-popup {
   position: fixed;
-  right: 220px;
+  right: 342px; /* 调整为 330px + 12px margin */
   left: auto !important;
 }
 
@@ -413,17 +511,43 @@ body::before {
     position: fixed;
     left: 120px;
     background: rgba(255, 255, 255, 0.98);
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
     display: none;
     z-index: 10000;
-    min-width: 200px;
+    min-width: 300px;
+    width: 360px;
+    max-width: calc(100% - 160px);
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: popupSlide 0.2s ease-out;
 }
 
 .menu-popup.active {
     display: block;
+}
+
+.menu-popup h3 {
+    margin: 0 0 12px;
+    font-size: 18px;
+    color: #1f1f1f;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding-bottom: 8px;
+}
+
+@keyframes popupSlide {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 /* 工具弹窗样式 */
@@ -432,7 +556,7 @@ body::before {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 70%;
+    width: 50%;
     height: 70vh;
     background: rgba(255, 255, 255, 0.98);
     border-radius: 12px;
@@ -475,6 +599,14 @@ body::before {
 
 .tab-item i {
     font-size: 18px;
+}
+
+.tab-item span {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* 右侧内容区 */
