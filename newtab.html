@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>新标签页</title>
+  <link rel="stylesheet" href="newtab.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+</head>
+<body>
+
+  <div class="bookmark-container">
+    <div class="bookmark-bar" id="bookmarkBar">
+      <!-- 书签栏内容 -->
+    </div>
+    <div class="other-bookmarks" id="otherBookmarks">
+      <!-- 其他书签 -->
+    </div>
+  </div>
+
+  <div class="search-wrapper">
+    <div class="search-container">
+      <div class="search-box">
+        <input type="text" 
+               id="searchInput" 
+               placeholder="输入搜索内容..." 
+               autocomplete="off"
+               autocorrect="off"
+               autocapitalize="off"
+               spellcheck="false">
+        <div class="search-engines">
+          <button class="engine-btn active" data-engine="bing">Bing</button>
+          <button class="engine-btn" data-engine="google">Google</button>
+        </div>
+      </div>
+      <div class="time-display" id="timeDisplay">00:00:00</div>
+      <div class="date-display" id="dateDisplay">
+        <div class="solar-date">2024年01月01日</div>
+        <div class="week">星期一</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 模态框 -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- 添加左侧悬浮菜单 -->
+  <div class="side-menu">
+    <div class="menu-container">
+      <div class="menu-item" data-popup="tools">
+        <i class="bi bi-tools"></i>
+      </div>
+      <div class="menu-item" data-popup="bookmark">
+        <i class="bi bi-bookmark"></i>
+      </div>
+      <div class="menu-item" data-popup="calendar">
+        <i class="bi bi-calendar"></i>
+      </div>
+      <div class="menu-item" data-popup="clock">
+        <i class="bi bi-clock"></i>
+      </div>
+      <div class="menu-item" data-popup="gear">
+        <i class="bi bi-gear"></i>
+      </div>
+      <div class="menu-item" data-popup="info">
+        <i class="bi bi-info-circle"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- 添加弹窗容器 -->
+  <div class="menu-popup tools-popup" id="toolsPopup">
+    <div class="tools-close">&times;</div>
+    
+    <!-- 左侧标签栏 -->
+    <div class="tools-tabs">
+        <div class="tab-item active" data-tab="quick-access">
+            <i class="bi bi-lightning"></i>
+            <span>快速访问</span>
+        </div>
+        <div class="tab-item" data-tab="calculator">
+            <i class="bi bi-calculator"></i>
+            <span>计算器</span>
+        </div>
+        <div class="tab-item" data-tab="notes">
+            <i class="bi bi-journal-text"></i>
+            <span>笔记</span>
+        </div>
+        <div class="tab-item" data-tab="todo">
+            <i class="bi bi-check2-square"></i>
+            <span>待办事项</span>
+        </div>
+        <div class="tab-item" data-tab="weather">
+            <i class="bi bi-cloud-sun"></i>
+            <span>天气</span>
+        </div>
+        <div class="tab-item" data-tab="translate">
+            <i class="bi bi-translate"></i>
+            <span>翻译</span>
+        </div>
+        <div class="tab-item" data-tab="converter">
+            <i class="bi bi-arrow-left-right"></i>
+            <span>单位转换</span>
+        </div>
+        <div class="tab-item" data-tab="timer">
+            <i class="bi bi-alarm"></i>
+            <span>计时器</span>
+        </div>
+    </div>
+    
+    <!-- 右侧内容区 -->
+    <div class="tools-content">
+        <div class="content-panel active" id="quick-access-panel">
+            <h3>快速访问</h3>
+            <!-- 快速访问内容 -->
+        </div>
+        <div class="content-panel" id="calculator-panel">
+            <h3>计算器</h3>
+            <!-- 计算器内容 -->
+        </div>
+        <!-- 其他面板... -->
+    </div>
+  </div>
+  <div class="menu-popup" id="bookmarkPopup">
+    <h3>书签管理</h3>
+    <!-- 书签弹窗内容 -->
+  </div>
+  <div class="menu-popup" id="calendarPopup">
+    <h3>日历</h3>
+    <!-- 日历弹窗内容 -->
+  </div>
+  <div class="menu-popup" id="clockPopup">
+    <h3>时钟</h3>
+    <!-- 时钟弹窗内容 -->
+  </div>
+  <div class="menu-popup" id="gearPopup">
+    <h3>设置</h3>
+    <!-- 设置弹窗内容 -->
+  </div>
+  <div class="menu-popup" id="infoPopup">
+    <h3>关于</h3>
+    <!-- 关于弹窗内容 -->
+  </div>
+
+  <script src="newtab.js"></script>
+</body>
+</html> 
